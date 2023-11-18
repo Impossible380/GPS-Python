@@ -1,4 +1,5 @@
 import json
+import copy
 
 def extract_ways(object_list):
     road_list = []
@@ -29,7 +30,7 @@ def output_json(road_list):
 
     # On itere sur chacune des routes...
     for i,road in enumerate(road_list):
-        feature = feature_template.copy()
+        feature = copy.deepcopy(feature_template)
 
         # ...Et sur chacune des coordonnées
         for node in road["nodes"]:
@@ -37,9 +38,7 @@ def output_json(road_list):
             lon = node["lon"]
             coordinate = [lon,lat]
             feature["geometry"]["coordinates"].append(coordinate)
-
         output_template["features"].append(feature)
-        if i == 1: break
 
 
     # Bonne pratique : with open permet d'ouvrir un fichier sous un autre nom et le ferme automatiquement à la fin du bloc with

@@ -1,7 +1,7 @@
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": []
-      }
-    }
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": []
+  }
+}

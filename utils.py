@@ -27,18 +27,19 @@ def output_json(road_list):
     # Objet standard associé à une route
     feature_template = json.load(open("feature_template.json"))
 
-    output_template["features"].append(feature_template)
-
     # On itere sur chacune des routes...
-    for road in road_list:
+    for i,road in enumerate(road_list):
         feature = feature_template.copy()
+
         # ...Et sur chacune des coordonnées
         for node in road["nodes"]:
             lat = node["lat"]
             lon = node["lon"]
             coordinate = [lon,lat]
             feature["geometry"]["coordinates"].append(coordinate)
+
         output_template["features"].append(feature)
+        if i == 1: break
 
 
     # Bonne pratique : with open permet d'ouvrir un fichier sous un autre nom et le ferme automatiquement à la fin du bloc with

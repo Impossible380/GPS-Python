@@ -8,4 +8,5 @@ if __name__ == "__main__":
     object_list = json.load(actual_file)
 
     road_list = extract_ways(object_list)
+    print(road_list)
     output_json(road_list)

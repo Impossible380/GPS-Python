@@ -24,29 +24,30 @@ def output_json(road_list):
     # json.load, charge un Fichier json depuis le disque dans un dico / liste
 
     # Objet standard associé à la carte (liste des routes)
-    output_template = json.load(open("liste_routes.json"))
+    output_road_list = json.load(open("road_list.json"))
 
     # Objet standard associé à une route (liste de segments)
-    feature_template = json.load(open("routes.json"))
+    feature_road = json.load(open("road.json"))
 
     # On itere sur chacune des routes...
     for i, road in enumerate(road_list):
 
         # On utilise deepcopy pour copier intégralement et récursivement tout le contenu du dictionnaire
-        route_output = copy.deepcopy(feature_template)
+        output_road_item = copy.deepcopy(feature_road)
 
         # ...Et sur chacune des coordonnées
         for j, node in enumerate(road["nodes"]):
-            lat = node["lat"]
             lon = node["lon"]
-            coordinate = [lon,lat]
-            route_output["geometry"]["coordinates"].append(coordinate)
-        output_template["features"].append(route_output)
+            lat = node["lat"]
+            coordinates = [lon, lat]
+            output_road_item["geometry"]["coordinates"].append(coordinates)
+
+        output_road_list["features"].append(output_road_item)
 
     # Bonne pratique : with open permet d'ouvrir un fichier sous un autre nom et le ferme automatiquement à la fin du
     # bloc with
-    with open("out.json","w") as f:
+    with open("out.json", "w") as out_file:
 
         # json.dumps, va traduire notre dico / liste vers une chaine de caractères (que l'on écrit sur le disque pour
         # avoir un Fichier json :) )
-        f.write(json.dumps(output_template))
+        out_file.write(json.dumps(output_road_list))

@@ -12,11 +12,27 @@ def extract_ways(object_list):
 
 
 def create_graph(road_list):
+    graph = {}
+
     for actual_road in road_list:
-        for crossing_road in road_list:
-            if actual_road["nodes"]["lat"] == crossing_road["nodes"]["lat"] and \
-                    actual_road["nodes"]["lon"] == crossing_road["nodes"]["lon"]:
-                pass
+        for j, actual_road_node in enumerate(actual_road["nodes"]):
+            lon = actual_road_node["lon"]
+            lat = actual_road_node["lat"]
+
+            if not (lon, lat) in graph:
+                graph[(lon, lat)] = []
+
+            if j > 0:
+                adj_lon = actual_road["nodes"][j - 1]["lon"]
+                adj_lat = actual_road["nodes"][j - 1]["lat"]
+                graph[(lon, lat)].append((adj_lon, adj_lat))
+
+            if j < len(actual_road["nodes"]) - 1:
+                adj_lon = actual_road["nodes"][j + 1]["lon"]
+                adj_lat = actual_road["nodes"][j + 1]["lat"]
+                graph[(lon, lat)].append((adj_lon, adj_lat))
+
+    return graph
 
 
 def output_json(road_list):

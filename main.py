@@ -9,4 +9,7 @@ if __name__ == "__main__":
 
     road_list = extract_ways(object_list)
     graph = create_graph(road_list)
-    print(len(graph))
+    start = ('4.7981541', '45.7327439')
+    # print(graph)
+
+    dijkstra(start, graph)

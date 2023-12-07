@@ -1,6 +1,66 @@
 import json
 import copy
 
+from math import *
+
+
+# Calcul de la distance entre deux coordonnées sur la terre.
+# Les formules mathématiques constituant la fonction ne sont pas importantes pour le reste du code.
+def haversine(lon1, lat1, lon2, lat2):
+    R = 6372.8  # Earth radius in kilometers
+
+    dLat = radians(lat2 - lat1)
+    dLon = radians(lon2 - lon1)
+    lat1 = radians(lat1)
+    lat2 = radians(lat2)
+
+    a = sin(dLat / 2)**2 + cos(lat1) * cos(lat2) * sin(dLon / 2)**2
+    c = 2 * asin(sqrt(a))
+
+    return R * c
+
+
+# distances = { (12.0, 4.2): 0, (10.0, 5.6): 5, (1.4,7.12): 3, (2.3,4): Inf }
+# arguments de la fonction: distances et visited
+# retour de la fonction: node qui n'est pas visitée et qui a la distance la plus petite
+
+
+def closest_node(distances, visited):
+    min_dist = float(inf)
+    min_node = 0
+
+    for node in distances:
+
+        if node not in visited and distances[node] < min_dist:
+            min_dist = distances[node]
+            min_node = node
+
+    print(min_node)
+    return min_node
+
+
+def dijkstra(start, nodes):
+    distances = {}
+    visited = []
+
+    for k in nodes:
+        distances[k] = float(inf)
+    distances[start] = 0
+
+    for i in range(len(nodes)):
+        # print(distances)
+        current_node = closest_node(distances, visited)
+        visited.append(current_node)
+
+        for voisin in nodes[current_node]:
+            new_distance = distances[current_node] + haversine(float(current_node[0]), float(current_node[1]),
+                                                               float(voisin[0]), float(voisin[1]))
+
+            if new_distance < distances[current_node]:
+                distances[current_node] = new_distance
+
+    # print(distances[current_node])
+
 
 def extract_ways(object_list):
     road_list = []
